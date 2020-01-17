@@ -15,7 +15,7 @@ const run_test = test => {
     return fetch(test.initial_url).then(r => {
       assert_equals(r.status, 200)
       // Verify that the browser did not include client hints in the request
-      // headers when fetching echo_client_hints_received.py.
+      // headers when fetching echo-client-hints-received.py.
       assert_false(r.headers.has("device-memory-received"),
         "device-memory-received");
     });
