@@ -1,3 +1,4 @@
+from six.moves import xrange
 import time
 
 def main(request, response):

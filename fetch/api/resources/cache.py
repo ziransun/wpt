@@ -1,3 +1,5 @@
+from six import ensure_str
+
 ETAG = '"123abc"'
 CONTENT_TYPE = "text/plain"
 CONTENT = "lorem ipsum dolor sit amet"
@@ -6,7 +8,7 @@ CONTENT = "lorem ipsum dolor sit amet"
 def main(request, response):
     # let caching kick in if possible (conditional GET)
     etag = request.headers.get("If-None-Match", None)
-    if etag == ETAG:
+    if etag is not None and ensure_str(etag) == ETAG:
         response.headers.set("X-HTTP-STATUS", 304)
         response.status = (304, "Not Modified")
         return ""

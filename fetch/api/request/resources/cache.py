@@ -1,3 +1,5 @@
+from six import ensure_str, PY3
+
 def main(request, response):
     token = request.GET.first("token", None)
     if "querystate" in request.GET:
@@ -16,6 +18,11 @@ def main(request, response):
     pragma = request.headers.get("Pragma", None)
     cache_control = request.headers.get("Cache-Control", None)
     ignore = "ignore" in request.GET
+ 
+    if PY3:
+        for x in [inm, ims, pragma, cache_control]:
+            if x is not None:
+                x = ensure_str(x)
 
     if tag:
         tag = '"%s"' % tag
