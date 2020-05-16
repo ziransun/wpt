@@ -4,21 +4,21 @@ def main(request, response):
     request headers were received.
     """
 
-    response.headers.append("Access-Control-Allow-Origin", "*")
+    response.headers.append(b"Access-Control-Allow-Origin", b"*")
     values = request.GET
-    name = values.first('name')
-    type = values.first('mimeType')
-    dpr = values.first('dpr')
+    name = values.first(b'name')
+    type = values.first(b'mimeType')
+    dpr = values.first(b'dpr')
     double = None
-    if 'double' in values:
-        double = values.first('double')
-    image_path = request.doc_root + "/".join(request.url_parts[2].split("/")[:-1]) + "/" + name
+    if b'double' in values:
+        double = values.first(b'double')
+    image_path = request.doc_root + u"/".join(request.url_parts[2].split(u"/")[:-1]) + u"/" + name.decode("iso-8859-1")
     f = open(image_path, "rb")
     buff = f.read()
     f.close()
-    response.headers.set("Content-Type", type)
-    response.headers.set("Content-DPR", dpr)
+    response.headers.set(b"Content-Type", type)
+    response.headers.set(b"Content-DPR", dpr)
     if double:
-        response.headers.append("Content-DPR", double)
-    response.headers.set("Content-Length", len(buff))
+        response.headers.append(b"Content-DPR", double)
+    response.headers.set(b"Content-Length", len(buff))
     response.content = buff
