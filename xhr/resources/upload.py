@@ -1,15 +1,18 @@
+from wptserve.utils import isomorphic_decode
+
 def main(request, response):
     content = []
 
-    for key, values in sorted(item for item in request.POST.items() if not hasattr(item[1][0], "filename")):
-        content.append("%s=%s," % (key, values[0]))
-    content.append("\n")
+    print(request.POST.items())
+    for key, values in sorted(item for item in request.POST.items() if not hasattr(item[1][0], u"filename")):
+        content.append(u"%s=%s," % (isomorphic_decode(key), values[0]))
+    content.append(u"\n")
 
-    for key, values in sorted(item for item in request.POST.items() if hasattr(item[1][0], "filename")):
+    for key, values in sorted(item for item in request.POST.items() if hasattr(item[1][0], u"filename")):
         value = values[0]
-        content.append("%s=%s:%s:%s," % (key,
+        content.append(u"%s=%s:%s:%s," % (isomorphic_decode(key),
                                          value.filename,
-                                         value.headers["Content-Type"],
+                                         value.headers[u"Content-Type"],
                                          len(value.file.read())))
 
-    return "".join(content)
+    return u"".join(content)

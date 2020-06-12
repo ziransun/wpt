@@ -1,9 +1,9 @@
 def main(request, response):
-    code = int(request.GET.first("code", 200))
-    text = request.GET.first("text", "OMG")
-    content = request.GET.first("content", "")
-    type = request.GET.first("type", "")
+    code = int(request.GET.first(b"code", 200))
+    text = request.GET.first(b"text", b"OMG")
+    content = request.GET.first(b"content", b"")
+    type = request.GET.first(b"type", b"")
     status = (code, text)
-    headers = [("Content-Type", type),
-               ("X-Request-Method", request.method)]
+    headers = [(b"Content-Type", type),
+               (b"X-Request-Method", request.method)]
     return status, headers, content
