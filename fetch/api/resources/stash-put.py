@@ -1,14 +1,16 @@
-def main(request, response):
-    if request.method == 'OPTIONS':
-        # CORS preflight
-        response.headers.set('Access-Control-Allow-Origin', '*')
-        response.headers.set('Access-Control-Allow-Methods', '*')
-        response.headers.set('Access-Control-Allow-Headers', '*')
-        return 'done'
+from wptserve.utils import isomorphic_decode
 
-    url_dir = '/'.join(request.url_parts.path.split('/')[:-1]) + '/'
-    key = request.GET.first("key")
-    value = request.GET.first("value")
-    request.server.stash.put(key, value, url_dir)
-    response.headers.set('Access-Control-Allow-Origin', '*')
-    return "done"
+def main(request, response):
+    if request.method == u'OPTIONS':
+        # CORS preflight
+        response.headers.set(b'Access-Control-Allow-Origin', b'*')
+        response.headers.set(b'Access-Control-Allow-Methods', b'*')
+        response.headers.set(b'Access-Control-Allow-Headers', b'*')
+        return b'done'
+
+    url_dir = u'/'.join(request.url_parts.path.split(u'/')[:-1]) + u'/'
+    key = request.GET.first(b"key")
+    value = request.GET.first(b"value")
+    request.server.stash.put(isomorphic_decode(key), value, url_dir)
+    response.headers.set(b'Access-Control-Allow-Origin', b'*')
+    return b"done"
